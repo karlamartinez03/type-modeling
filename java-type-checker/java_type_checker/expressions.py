@@ -82,6 +82,8 @@ class JavaAssignment(JavaExpression):
             return self.lhs.static_type()
 
     def check_types(self):
+        self.lhs.check_types()
+        self.rhs.check_types()
         lhs_type = self.lhs.static_type()
         rhs_type = self.rhs.static_type()
 
@@ -119,6 +121,10 @@ class JavaMethodCall(JavaExpression):
             return self.receiver.static_type().method_named(self.method_name).return_type
 
     def check_types(self):
+        self.receiver.check_types()
+
+        for arg in self.args:
+            arg.check_types()
         receiver_type = self.receiver.static_type()
         method = receiver_type.method_named(self.method_name)
 
