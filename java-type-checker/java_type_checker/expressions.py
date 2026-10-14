@@ -15,7 +15,9 @@ class JavaExpression(object):
 
         Subclasses must override this method.
         """
-        raise NotImplementedError(type(self).__name__ + " must override static_type()")
+        receiver_type = self.receiver.static_type()
+        method = receiver_type.method_named(self.method_name)
+        return method.return_type
 
     def check_types(self):
         """Examines the structure of this expression for static type errors.
